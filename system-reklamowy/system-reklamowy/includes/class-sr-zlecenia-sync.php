@@ -35,7 +35,7 @@ class SR_Zlecenia_Sync {
      * @param WP_Post $post
      * @param bool    $update
      */
-    public function sync_zlecenie_radio( int $post_id, WP_Post $post, bool $update ) {
+	public function sync_zlecenie_radio( int $post_id, WP_Post $post, bool $update ) {
         global $wpdb;
 
         // Bezpieczeństwo: tylko właściwy typ, bez autosave/rev.
@@ -50,6 +50,25 @@ class SR_Zlecenia_Sync {
         if ( wp_is_post_revision( $post_id ) ) {
             return;
         }
+		
+		// 🔥 FIX: Nie synchronizujemy, jeśli zlecenie NIE MA jeszcze wymaganych meta.
+		// Zapobiega tworzeniu PUSTYCH wierszy w wp_sr_zlecenia.
+		// Dotyczy głównie sytuacji, gdy CPT jest tworzone we FRONT-PANELU.
+		$required_meta = [
+			'kontrahent_id',
+			'nazwa_reklamy',
+			'dlugosc_spotu',
+			'data_start',
+			'data_koniec',
+		];
+
+		foreach ( $required_meta as $m ) {
+			$val = get_post_meta( $post_id, $m, true );
+			if ( $v === '' || $v === null ) {
+				// Meta nie są jeszcze ustawione → przerwij sync
+				return;
+			}
+		}
 
         // Jeżeli zlecenie w koszu – można np. oznaczyć status jako "cancelled".
         if ( $post->post_status === 'trash' ) {
