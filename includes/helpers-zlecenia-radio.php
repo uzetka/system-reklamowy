@@ -22,3 +22,41 @@ function sr_radio_get_zlecenie_data( int $post_id ): array {
         'status'          => get_post_meta( $post_id, 'status', true ) ?: 'draft',
     ];
 }
+
+/**
+ * Zwraca procent rabatu na podstawie typu:
+ *  - 'brak'        → 0%
+ *  - 'agencyjny'   → procent z Ustawień
+ *  - '100'         → 100%
+ *  - 'negocjowany' → wartość z pola (0–100)
+ *
+ * @param string $typ 'brak' | 'agencyjny' | '100' | 'negocjowany'
+ * @param float  $neg wartość negocjowana, jeśli typ = negocjowany
+ * @return float 0–100
+ */
+function sr_get_rabat_procent( string $typ, float $neg = 0.0 ): float {
+
+    switch ( $typ ) {
+        case 'brak':
+        default:
+            return 0.0;
+
+        case 'agencyjny':
+            // Klucz opcji możesz sprawdzić w swoim module Ustawień.
+            // Przykładowo używamy 'sr_rabat_agencyjny_procent'
+            $val = get_option( 'sr_rabat_agencyjny_procent', 0 );
+            $val = (float) $val;
+            if ( $val < 0 )  $val = 0;
+            if ( $val > 100 ) $val = 100;
+            return $val;
+
+        case '100':
+            return 100.0;
+
+        case 'negocjowany':
+            $neg = (float) $neg;
+            if ( $neg < 0 )  $neg = 0;
+            if ( $neg > 100 ) $neg = 100;
+            return $neg;
+    }
+}
