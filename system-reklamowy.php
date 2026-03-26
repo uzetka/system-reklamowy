@@ -45,6 +45,8 @@ spl_autoload_register( function( $class ) {
  */
 require_once SR_PLUGIN_DIR . 'includes/helpers-meta.php';
 require_once SR_PLUGIN_DIR . 'includes/helpers-zlecenia-radio.php';
+// Frontend Panel – CRM
+require_once __DIR__ . '/includes/class-sr-frontend.php';
 
 /**
  * Aktywacja wtyczki
