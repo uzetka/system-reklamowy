@@ -1,0 +1,29 @@
+#sr-panel-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.sr-sidebar {
+    width: 220px;
+}
+
+.sr-panel-main {
+    flex: 1;
+}
+
+#sr-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+}
+
+#sr-modal-cennik-radio {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
