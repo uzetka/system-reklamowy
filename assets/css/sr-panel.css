@@ -1,3 +1,22 @@
+body {
+    font-family: 'Inter', sans-serif;
+    font-display: swap;
+}
+
+#sr-panel-wrapper,
+.sr-panel-main,
+.sr-card,
+.sr-table,
+.sr-input,
+.sr-select,
+.sr-textarea,
+.sr-btn {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ============================================================================
+   SYSTEM REKLAMOWY - PANEL (ORYGINALNE WPISY)
+   ========================================================================= */
 #sr-panel-wrapper {
     display: flex;
     gap: 20px;
@@ -26,4 +45,408 @@
     background: #fff;
     padding: 20px;
     border-radius: 10px;
+}
+
+/* ============================================================================
+   DODANE STYLE - FORMULARZE, INPUTY, TABELE, KARTY
+   ========================================================================= */
+
+/* --- PODSTAWY TYPOGRAFII --- */
+.sr-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.sr-muted {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* --- INPUTY --- */
+.sr-input,
+.sr-textarea,
+.sr-select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.sr-input:focus,
+.sr-textarea:focus,
+.sr-select:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 1px #2563eb33;
+}
+
+/* TEXTAREA */
+.sr-textarea {
+    resize: vertical;
+}
+
+/* SELECT */
+.sr-select {
+    appearance: auto;
+}
+
+/* --- KARTY --- */
+.sr-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 0;
+}
+
+/* --- SEKCJE --- */
+.sr-section-title {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* ============================================================
+   MINI-FRAMEWORK PRZYCISKÓW (globalny system UI)
+   ============================================================ */
+
+/* Podstawowy przycisk */
+.sr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: background .15s ease, color .15s ease, opacity .15s ease;
+}
+
+/* Warianty kolorystyczne */
+.sr-btn--primary {
+    background: #2563EB;     /* niebieski */
+    color: #F9FAFB;
+}
+.sr-btn--primary:hover {
+    opacity: .95;
+}
+
+.sr-btn--secondary {
+    background: #E5E7EB;     /* jasny szary */
+    color: #111827;
+}
+.sr-btn--secondary:hover {
+    background: #d1d5db;
+}
+
+.sr-btn--success {
+    background: #16A34A;
+    color: #F9FAFB;
+}
+.sr-btn--success:hover {
+    opacity: .95;
+}
+
+.sr-btn--danger {
+    background: #DC2626;
+    color: white;
+}
+.sr-btn--danger:hover {
+    opacity: .95;
+}
+
+/* Rozmiary */
+.sr-btn--small {
+    padding: 5px 12px;
+    font-size: 13px;
+}
+.sr-btn--large {
+    padding: 12px 28px;
+    font-size: 16px;
+}
+
+/* Przyciski niskie — filtr, wyczyść */
+.sr-btn--tiny {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+
+/* Ikony */
+.sr-btn svg {
+    margin-right: 6px;
+}
+
+/* Disabled */
+.sr-btn:disabled,
+.sr-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- GRIDY --- */
+.sr-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.sr-grid-full {
+    grid-column: 1 / -1;
+}
+
+/* --- TABELKI --- */
+.sr-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.sr-table th {
+    background: #f9fafb;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sr-table td {
+    padding: 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* --- TOASTY --- */
+.sr-toast {
+    position: fixed;
+    z-index: 99999;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 20px;
+    background: #111827;
+    color: #F9FAFB;
+    padding: 10px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity .3s ease;
+    font-size: 14px;
+}
+
+.sr-toast--visible {
+    opacity: 1;
+}
+
+/* --- AUTOCOMPLETE BOX (KONTRAHENT) --- */
+/* .sr-autocomplete-box {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 9999;
+}
+.sr-autocomplete-box div {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f3f4f6;
+}
+.sr-autocomplete-box div:hover {
+    background: #f9fafb;
+} */
+
+/* --- PLAN EMISJI: WEEKDAY COLORS --- */
+.sr-col-so,
+.sr-col-nd {
+    background: #FFF7ED !important;
+}
+
+/* AUTOCOMPLETE - poprawiony wygląd */
+.sr-autocomplete-box {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    z-index: 9999;
+    font-size: 14px;           /* mniejsza czcionka */
+    line-height: 1.4;
+}
+
+.sr-autocomplete-box div {
+    padding: 8px 12px;         /* większy komfort kliknięcia */
+    cursor: pointer;
+    border-bottom: 1px solid #f1f3f5;
+    background: #ffffff;
+    font-size: 14px;           /* normalna czcionka */
+    font-weight: 400;
+}
+
+.sr-autocomplete-box div:hover {
+    background: #f8fafc;
+}
+
+/* Sekcja ZLECENIE - wyraźniejsza typografia */
+.sr-zlecenie-info {
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 500;
+    color: #1f2937; /* ciemniejszy gray */
+}
+.sr-zlecenie-info strong {
+    color: #111827; /* mocniejszy nagłówek */
+    font-weight: 600;
+}
+
+/* Nagłówki sekcji (Dni emisji / Godziny emisji) */
+.sr-plan-heading {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 20px 0 10px;
+    color: #111827;
+}
+
+/* Checkbox label - większa czytelność */
+.sr-day-label,
+.sr-hour-label {
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+/* GODZINY - zgrupowane, 10 w jednej linii bez dużych odstępów */
+.sr-hours-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 65px); /* stała szerokość -> równe odstępy */
+    gap: 6px 10px; /* mniejsze odstępy między godzinami */
+    align-items: center;
+}
+
+/* Responsywnie na mniejszych ekranach */
+@media (max-width: 1300px) {
+    .sr-hours-grid {
+        grid-template-columns: repeat(8, 65px);
+    }
+}
+@media (max-width: 1100px) {
+    .sr-hours-grid {
+        grid-template-columns: repeat(6, 65px);
+    }
+}
+@media (max-width: 900px) {
+    .sr-hours-grid {
+        grid-template-columns: repeat(4, 65px);
+    }
+}
+@media (max-width: 600px) {
+    .sr-hours-grid {
+        grid-template-columns: repeat(3, 65px);
+    }
+}
+
+/* GODZINY - mini-karty (pill) */
+.sr-hour-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;              /* kapsułka */
+    border: 1px solid #e5e7eb;         /* delikatna ramka */
+    background: #f9fafb;               /* jasne tło */
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.sr-hour-label input[type="checkbox"] {
+    margin: 0;
+}
+
+/* hover/focus - lekki highlight */
+.sr-hour-label:hover {
+    background: #eef2ff;               /* delikatny niebieski */
+    border-color: #c7d2fe;
+}
+
+/* zaznaczone - mocniejsze wyróżnienie */
+.sr-hour-label input[type="checkbox"]:checked + span,
+.sr-hour-label input[type="checkbox"]:checked ~ span {
+    font-weight: 600;
+    color: #1d4ed8;
+}
+
+/* DNI - mini-karty (pill) */
+.sr-day-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+/* Hover */
+.sr-day-label:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+}
+
+/* Weekend - pomarańczowy wyróżnik */
+.sr-day-label.sr-weekend {
+    color: #b45309 !important;
+    font-weight: 600;
+}
+
+/* Zaznaczenie - wyróżnienie */
+.sr-day-label input[type="checkbox"]:checked + span,
+.sr-day-label input[type="checkbox"]:checked ~ span {
+    font-weight: 600;
+    color: #1d4ed8;
+}
+
+/* SPOTY - większy obszar klikalny w planie tygodnia */
+.sr-spot-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    padding: 4px 0;
+    box-sizing: border-box;
+}
+
+.sr-spot-label input[type="checkbox"] {
+    margin: 0;
 }

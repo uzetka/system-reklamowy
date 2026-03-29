@@ -1,38 +1,38 @@
 <?php
 /**
- * Frontend panel – pełny layout (bez motywu).
+ * Widok frontowego panelu /panel-reklamy
  *
- * Ten plik przejmuje rolę HTML-a z Code Snippets (#10 – Front Panel bez motywu).
- * Wywoływany jest z klasy SR_Frontend_Router:
- *  - sprawdza slug strony: panel-reklamy
- *  - sprawdza logowanie
- *  - ustawia zmienną $view
+ * Ten plik jest ładowany przez SR_Frontend_Router (template_redirect)
+ * i odpowiada za pełny HTML:
+ * - <html>, <head>, wp_head()
+ * - sidebar
+ * - topbar
+ * - main
+ * - wywołanie: sr_front_render_view( $view )
+ *
+ * Kluczowy jest parametr $_GET['view'], który decyduje o treści panelu.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Nagłówki jak w snippecie – pełna kontrola nad odpowiedzią.
-status_header( 200 );
-nocache_headers();
-
-// Użytkownik i podstawowe zmienne panelu.
 $current_user = wp_get_current_user();
+$base_url     = get_permalink();
 
-// Jeśli z jakiegoś powodu $view nie zostało ustawione w routerze, zabezpieczamy się.
-if ( ! isset( $view ) || ! is_string( $view ) || $view === '' ) {
-    $view = isset( $_GET['view'] ) ? sanitize_key( wp_unslash( $_GET['view'] ) ) : 'dashboard';
-}
+$view = isset( $_GET['view'] )
+    ? sanitize_key( wp_unslash( $_GET['view'] ) )
+    : 'dashboard';
 
-$base_url = get_permalink();
+$title = function_exists( 'sr_front_get_view_title' )
+    ? sr_front_get_view_title( $view )
+    : 'Panel Reklamy';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title><?php echo esc_html( get_bloginfo( 'name' ) . ' – Panel reklamy' ); ?></title>
 
     <?php wp_head(); ?>
@@ -46,7 +46,10 @@ $base_url = get_permalink();
             background: #f3f4f6;
             color: #111827;
         }
-        .sr-app-shell { display: flex; min-height: 100vh; }
+        .sr-app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
         .sr-sidebar {
             width: 260px;
             background: #111827;
@@ -73,7 +76,9 @@ $base_url = get_permalink();
             color: inherit;
             font-size: 14px;
         }
-        .sr-menu a:hover { background: #1f2937; }
+        .sr-menu a:hover {
+            background: #1f2937;
+        }
         .sr-menu a.is-active {
             background: #374151;
             font-weight: 600;
@@ -111,53 +116,10 @@ $base_url = get_permalink();
             padding: 18px 20px;
             box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
         }
-        .sr-muted { color: #6b7280; font-size: 14px; }
-
-        .sr-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-            background: #e5e7eb;
-            color: #374151;
-        }
-        .sr-badge--radio { background: #DBEAFE; color: #1D4ED8; }
-        .sr-badge--tv { background: #FEF3C7; color: #92400E; }
-        .sr-badge--beta { background: #E0E7FF; color: #4338CA; }
-
-        table.sr-table {
-            width: 100%;
-            border-collapse: collapse;
+        .sr-muted {
+            color: #6b7280;
             font-size: 14px;
         }
-        table.sr-table thead { background: #f9fafb; }
-        table.sr-table th,
-        table.sr-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: left;
-            vertical-align: top;
-        }
-        table.sr-table th {
-            font-weight: 600;
-            color: #4b5563;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .03em;
-        }
-
-        .sr-input-error {
-            border-color: #DC2626 !important;
-            box-shadow: 0 0 0 1px rgba(220,38,38,0.15);
-        }
-        .sr-input-ok {
-            border-color: #16A34A !important;
-            box-shadow: 0 0 0 1px rgba(22,163,74,0.12);
-        }
-
         .sr-toast {
             position: fixed;
             top: 16px;
@@ -181,8 +143,10 @@ $base_url = get_permalink();
         }
     </style>
 </head>
+
 <body>
 <div class="sr-app-shell">
+
     <!-- SIDEBAR -->
     <aside class="sr-sidebar">
         <div class="sr-sidebar-header">
@@ -191,14 +155,14 @@ $base_url = get_permalink();
 
         <ul class="sr-menu">
             <?php
-            $links = [
+            $links = array(
                 'dashboard'      => 'Dashboard',
                 'kontrahenci'    => 'Kontrahenci',
                 'zlecenia-radio' => 'Zlecenia RADIO',
                 'zlecenia-tv'    => 'Zlecenia TV',
                 'grafik-radio'   => 'Grafik RADIO',
                 'ustawienia'     => 'Ustawienia',
-            ];
+            );
 
             foreach ( $links as $key => $label ) :
                 $url       = add_query_arg( 'view', $key, $base_url );
@@ -225,14 +189,15 @@ $base_url = get_permalink();
 
     <!-- MAIN CONTENT -->
     <main class="sr-content">
+
         <header class="sr-topbar">
             <div>
-                <h1><?php echo esc_html( function_exists( 'sr_front_get_view_title' ) ? sr_front_get_view_title( $view ) : 'Panel reklamowy' ); ?></h1>
+                <h1><?php echo esc_html( $title ); ?></h1>
                 <div class="sr-muted">
-                    Panel wewnętrzny emisji reklam – widok:
-                    <?php echo esc_html( $view ); ?>
+                    Panel wewnętrzny emisji reklam – widok: <?php echo esc_html( $view ); ?>
                 </div>
             </div>
+
             <div class="sr-topbar-user">
                 <?php echo esc_html( $current_user->user_email ); ?>
             </div>
@@ -240,16 +205,16 @@ $base_url = get_permalink();
 
         <section class="sr-card">
             <?php
-            // Router widoków pochodzi na razie ze snippetu (#10):
-            // function sr_front_render_view( string $view )
             if ( function_exists( 'sr_front_render_view' ) ) {
                 sr_front_render_view( $view );
             } else {
-                echo '<p class="sr-muted">Brak zarejestrowanego routera widoków (sr_front_render_view).</p>';
+                echo '<p class="sr-muted">Brak routera widoków (sr_front_render_view).</p>';
             }
             ?>
         </section>
+
     </main>
+
 </div><!-- .sr-app-shell -->
 
 <?php wp_footer(); ?>

@@ -11,6 +11,11 @@ class SR_Frontend {
 
         // Panel – router widoków (dashboard, kontrahenci, zlecenia, ustawienia)
         require_once __DIR__ . '/frontend/class-sr-frontend-panel.php';
+		
+		// Router widoków panelu (wraper na sr_front_render_view / sr_front_get_view_title).
+		if ( file_exists( __DIR__ . '/frontend/class-sr-frontend-panel.php' ) ) {
+			require_once __DIR__ . '/frontend/class-sr-frontend-panel.php';
+		}
 
         // Ustawienia (logika + widoki)
         if ( file_exists( __DIR__ . '/frontend/class-sr-frontend-settings.php' ) ) {

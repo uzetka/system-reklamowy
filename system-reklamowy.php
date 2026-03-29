@@ -119,6 +119,8 @@ function sr_run_plugin() {
         3
     );
 
+	require_once SR_PLUGIN_DIR . 'includes/api/class-sr-rest.php';
+	new SR_REST();
 
     // Start loadera.
     $loader->run();
